@@ -1,0 +1,274 @@
+/* Custom CSS for Aizen Verse */
+
+/* Hide scrollbar for Webkit browsers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* =======================================================
+   GLASS MORPHISM EFFECTS
+   ======================================================= */
+
+/* Default glass effect */
+.glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+}
+
+/* =======================================================
+   DARK MODE
+   ======================================================= */
+.dark {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+.dark .bg-light-bg {
+  background-color: #181818 !important; /* CONTRAST FIX */
+}
+
+.dark .text-light-text {
+  color: #ffffff !important; /* FIXED (you had it reversed) */
+}
+
+.dark .border-light-border {
+  border-color: #333333 !important;
+}
+/* Dark mode glass - deeper contrast */
+.dark .glass {
+  background: rgba(20, 20, 20, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* =======================================================
+   LIGHT MODE (REBUILT BY INVERSION)
+   ======================================================= */
+
+/* Inverted dark mode styles for light mode */
+.light-mode {
+  background-color: #f0f0f0;
+  color: #000000;
+}
+
+/* Ensure all text elements are black in light mode */
+.light-mode h1,
+.light-mode h2,
+.light-mode h3,
+.light-mode h4,
+.light-mode h5,
+.light-mode h6,
+.light-mode p,
+.light-mode span,
+.light-mode div,
+.light-mode a,
+.light-mode li,
+.light-mode ul,
+.light-mode ol,
+.light-mode button,
+.light-mode label,
+.light-mode input,
+.light-mode select,
+.light-mode textarea,
+.light-mode th,
+.light-mode td {
+  color: #000000 !important;
+}
+
+/* Invert dark mode specific styles */
+.light-mode .bg-light-bg {
+  background-color: #e0e0e0;
+}
+
+.light-mode .text-light-text {
+  color: #000000;
+}
+
+.light-mode .border-light-border {
+  border-color: #cccccc;
+}
+/* =======================================================
+   HERO SLIDER - Light Mode Text Override
+   ======================================================= */
+.light-mode .hero-slider-content,
+.light-mode .hero-slider-content *,
+.light-mode .hero-slider-content h1,
+.light-mode .hero-slider-content h2,
+.light-mode .hero-slider-content h3,
+.light-mode .hero-slider-content h4,
+.light-mode .hero-slider-content p,
+.light-mode .hero-slider-content span,
+.light-mode .hero-slider-content div {
+  color: #ffffff !important;
+}
+/* =======================================================
+   Current State Elements Text in Light Mode
+   ======================================================= */
+.light-mode .current-state,
+.light-mode .current-state *,
+.light-mode .current-state h1,
+.light-mode .current-state h2,
+.light-mode .current-state h3,
+.light-mode .current-state h4,
+.light-mode .current-state p,
+.light-mode .current-state span {
+  color: #ffffff !important;
+}
+
+/* Light mode glass - inverted from dark mode */
+.light-mode .glass {
+  background: rgba(230, 230, 230, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.15);
+}
+/* =======================================================
+   Glass Morphism Effects
+   ======================================================= */
+
+/* Default dark glass */
+.glass {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+}
+
+/* Light mode — corrected bright glass */
+.light-mode .glass {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}
+
+/* Dark mode — deeper contrast */
+.dark .glass {
+  background: rgba(20, 20, 20, 0.5) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+}
+
+
+/* =======================================================
+   ANIMATIONS
+   ======================================================= */
+
+.animate-in {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-in-from-top-2 {
+  animation-name: slideInFromTop2;
+}
+
+@keyframes slideInFromTop2 {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Custom easing function for theme transition */
+.ease-in-expo {
+  animation-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+}
+
+@keyframes shutterUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes shutterDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.shutter-up-anim {
+  animation: shutterUp 0.8s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+}
+
+.shutter-down-anim {
+  animation: shutterDown 0.8s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+}
+
+/* Glitch animation for intro */
+.animate-glitch {
+  animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}

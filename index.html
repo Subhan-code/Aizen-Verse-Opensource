@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aizen Verse</title>
+    <link rel="icon" type="image/jpeg" href="https://i.pinimg.com/1200x/c2/94/ba/c294bac3f087bc43afa7830b0dbfd4be.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              'dela': ['"Dela Gothic One"', 'sans-serif'],
+              'outfit': ['"Outfit"', 'sans-serif'],
+              'space': ['"Space Grotesk"', 'monospace']
+            },
+            borderRadius: {
+              'tl-huge': '3.5rem',
+              'tr-huge': '3.5rem',
+              'xxl': '2rem',
+              'xxxl': '2.5rem'
+            },
+            colors: {
+              'dark-bg': '#000000',
+              'dark-surface': '#121212',
+              'dark-text': '#ffffff',
+
+              'light-bg': '#F4F4F5',
+              'light-surface': '#FFFFFF',
+              'light-text': '#000000'
+            }
+          }
+        },
+        darkMode: 'class'
+      }
+    </script>
+
+    <style>
+      /* ----------------------- */
+      /* FIXED DARK / LIGHT MODE */
+      /* ----------------------- */
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Outfit', sans-serif;
+      }
+
+      .dark body {
+        --bg: #000000;
+        --text: #ffffff;
+      }
+
+      .light-mode body {
+        --bg: #f0f0f0;
+        --text: #000000;
+      }
+
+      /* Inverted surface overrides */
+      .light-mode .bg-dark-surface {
+        background-color: #e0e0e0;
+        color: #000000;
+      }
+
+      .light-mode .bg-light-surface {
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      /* Inverted text overrides */
+      .light-mode .text-dark-text {
+        color: #000000;
+      }
+
+      .light-mode .text-light-text {
+        color: #000000;
+      }
+
+
+      /* ----------------------- */
+      /*     Custom Scrollbar    */
+      /* ----------------------- */
+
+      ::-webkit-scrollbar { width: 8px; }
+
+      ::-webkit-scrollbar-track {
+        background: #000000; 
+      }
+
+      .light-mode ::-webkit-scrollbar-track {
+        background: #f0f0f0; 
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #444444; 
+        border-radius: 4px;
+      }
+
+      .light-mode ::-webkit-scrollbar-thumb {
+        background: #bbbbbb; 
+      }
+
+      ::-webkit-scrollbar-thumb:hover { background: #666666; }
+      .light-mode ::-webkit-scrollbar-thumb:hover { background: #999999; }
+
+
+      /* -------- Glitch Animation ---------- */
+
+      @keyframes glitch-anim {
+        0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        20% { clip-path: polygon(0 0, 100% 0, 100% 40%, 0 60%); }
+        40% { clip-path: polygon(0 40%, 100% 60%, 100% 100%, 0 100%); }
+        60% { clip-path: polygon(0 0, 100% 0, 100% 70%, 0 30%); }
+        80% { clip-path: polygon(0 30%, 100% 70%, 100% 100%, 0 100%); }
+        100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+      }
+
+      .glitch-text {
+        position: relative;
+        display: inline-block;
+      }
+
+      .glitch-text::before,
+      .glitch-text::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .glitch-text::before {
+        left: 2px;
+        text-shadow: -2px 0 red;
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        animation: glitch-anim 0.3s infinite linear alternate-reverse;
+      }
+
+      .glitch-text::after {
+        left: -2px;
+        text-shadow: -2px 0 blue;
+        clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        animation: glitch-anim 0.3s infinite linear alternate-reverse;
+      }
+    </style>
+
+    <link rel="stylesheet" href="/custom.css">
+
+    <!-- Removed import map to use standard npm modules -->
+
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

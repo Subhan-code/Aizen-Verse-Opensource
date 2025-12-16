@@ -1,0 +1,5 @@
+{
+  "name": "HiAnime Streamer",
+  "description": "A modern, responsive anime streaming application using the HiAnime API with a sleek dark UI.",
+  "requestFramePermissions": []
+}
