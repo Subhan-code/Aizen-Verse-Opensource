@@ -226,178 +226,131 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
   }, [navigate]);
 
   // Add scroll event listener for navbar effect
-  useEffect(() => {
-    const handleScroll = () => {
-      // Set isScrolled to true when user scrolls down
-      const scrolled = window.scrollY > 50;
-      setIsScrolled(scrolled);
-      // Notify parent component about navbar glass effect
-      if (setIsNavbarGlass) {
-        setIsNavbarGlass(scrolled);
-      }
-    };
-
-    // Add scroll event listener
-    window.addEventListener('scroll', handleScroll);
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      // Reset navbar glass effect when component unmounts
-      if (setIsNavbarGlass) {
-        setIsNavbarGlass(false);
-      }
-    };
-  }, [setIsNavbarGlass]);
+  
 
   // Mobile UI Implementation
   const renderMobileUI = () => (
-    <div className="w-full flex flex-col md:hidden">
-      {/* Top Bar - Back button and anime title */}
-      <div className="sticky top-0 z-10 bg-black/90 backdrop-blur-md p-4 flex items-center justify-between">
-        <button 
-          onClick={handleClose} 
-          className="flex items-center gap-2 text-white touch-control"
+  <div className="md:hidden w-full bg-black min-h-screen pt-16">
+
+    {/* Header */}
+    <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
+      <button onClick={handleClose} className="text-white">
+        <ArrowLeft className="w-6 h-6" />
+      </button>
+      <h1 className="text-white font-bold text-base truncate">
+        {animeInfo?.title || 'Watching'}
+      </h1>
+    </div>
+
+    {/* Video Player (iframe ONLY) */}
+    <div className="w-full aspect-video bg-black">
+      {loading ? (
+        <div className="flex items-center justify-center h-full">
+          <Loader className="w-10 h-10 animate-spin text-white" />
+        </div>
+      ) : error ? (
+        <div className="flex flex-col items-center justify-center h-full text-center px-4">
+          <AlertCircle className="w-10 h-10 text-red-500 mb-2" />
+          <p className="text-red-400 text-sm">{error}</p>
+        </div>
+      ) : megaPlayEpisodeId ? (
+        <iframe
+          src={selectedSource ? selectedSource.url : ''}
+          className="w-full h-full"
+          frameBorder="0"
+          allow="fullscreen; autoplay"
+          allowFullScreen
+        />
+      ) : (
+        <div className="flex items-center justify-center h-full text-gray-400">
+          No stream available
+        </div>
+      )}
+    </div>
+
+    {/* Controls */}
+    <div className="flex justify-between items-center px-4 py-3 border-b border-white/10">
+      <button
+        onClick={handlePrevEpisode}
+        disabled={getCurrentEpisodeIndex() <= 0}
+        className="text-white disabled:opacity-40"
+      >
+        <ChevronLeft />
+      </button>
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => setCategory(StreamCategory.SUB)}
+          className={`px-3 py-1 rounded-full text-sm font-bold ${
+            category === StreamCategory.SUB
+              ? 'bg-white text-black'
+              : 'bg-gray-700 text-white'
+          }`}
         >
-          <ArrowLeft className="w-5 h-5" /> 
-          <span className="font-bold">Back</span>
+          SUB
         </button>
-        <h1 className="text-white font-bold text-lg truncate max-w-[60%]">
-          {animeInfo?.title || 'Watching Anime'}
-        </h1>
-        <div></div> {/* Spacer for flex alignment */}
+        <button
+          onClick={() => setCategory(StreamCategory.DUB)}
+          className={`px-3 py-1 rounded-full text-sm font-bold ${
+            category === StreamCategory.DUB
+              ? 'bg-white text-black'
+              : 'bg-gray-700 text-white'
+          }`}
+        >
+          DUB
+        </button>
       </div>
 
-      {/* Video Player */}
-      <div className="w-full aspect-video bg-black relative mobile-video-container">
-        {loading ? (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Loader className="w-12 h-12 animate-spin text-white" />
+      <button
+        onClick={handleNextEpisode}
+        disabled={
+          getCurrentEpisodeIndex() >= (animeInfo?.episodes.length || 0) - 1
+        }
+        className="text-white disabled:opacity-40"
+      ><span className="text-sm">Next</span>
+        <ChevronRight />
+      </button>
+    </div>
+
+    {/* Episodes */}
+    <div className="px-4 py-4">
+      <h3 className="text-white font-bold mb-3">
+        Episodes ({animeInfo?.episodes.length || 0})
+      </h3>
+
+      <div className="grid grid-cols-4 gap-2">
+        {episodesLoading ? (
+          <div className="col-span-4 flex justify-center py-6">
+            <Loader className="w-6 h-6 animate-spin text-white" />
           </div>
-        ) : error ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 bg-black">
-            <AlertCircle className="w-12 h-12 mb-2 text-red-500" />
-            <p className="mb-2 text-red-400">{error}</p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {availableServers.map(server => (
-                <button
-                  key={server.id}
-                  onClick={() => handleServerSelect(server.id)}
-                  className={`px-3 py-1 rounded-full text-sm touch-control ${
-                    selectedServer === server.id
-                      ? 'bg-red-600 text-white'
-                      : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
-                  }`}
-                >
-                  Retry {server.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : megaPlayEpisodeId ? (
-          <div className="w-full h-full relative">
-            <iframe
-              src={`https://megaplay.buzz/stream/s-2/${megaPlayEpisodeId}/${category}`}
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              scrolling="no"
-              allowFullScreen
-              className="w-full h-full bg-black"
-            />
-          </div>
+        ) : animeInfo?.episodes.length ? (
+          animeInfo.episodes.map(ep => {
+            const active = ep.id === episodeId;
+            return (
+              <button
+                key={ep.id}
+                ref={active ? activeEpisodeRef : null}
+                onClick={() => navigate(`/watch/${ep.id}`)}
+                className={`aspect-square rounded-lg font-bold ${
+                  active
+                    ? 'bg-white text-black'
+                    : 'bg-gray-800 text-white'
+                }`}
+              >
+                {ep.number}
+              </button>
+            );
+          })
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-            No stream available
+          <div className="col-span-4 text-center text-gray-500">
+            No episodes found
           </div>
         )}
       </div>
-
-      {/* Episode Controls - Fixed at bottom */}
-      <div className="sticky bottom-0 bg-black/90 backdrop-blur-md p-4 flex items-center justify-between">
-        <button
-          onClick={handlePrevEpisode}
-          disabled={getCurrentEpisodeIndex() <= 0}
-          className="flex items-center gap-2 text-white disabled:opacity-50 touch-control"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          <span className="text-sm">Prev</span>
-        </button>
-        
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setCategory(StreamCategory.SUB)}
-            className={`px-3 py-1 rounded-full text-sm ${
-              category === StreamCategory.SUB
-                ? 'bg-white text-black font-bold'
-                : 'bg-gray-700 text-gray-300'
-            }`}
-          >
-            SUB
-          </button>
-          <button
-            onClick={() => setCategory(StreamCategory.DUB)}
-            className={`px-3 py-1 rounded-full text-sm ${
-              category === StreamCategory.DUB
-                ? 'bg-white text-black font-bold'
-                : 'bg-gray-700 text-gray-300'
-            }`}
-          >
-            DUB
-          </button>
-        </div>
-        
-        <button
-          onClick={handleNextEpisode}
-          disabled={getCurrentEpisodeIndex() >= (animeInfo?.episodes.length || 0) - 1}
-          className="flex items-center gap-2 text-white disabled:opacity-50"
-        >
-          <span className="text-sm">Next</span>
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      </div>
-
-      {/* Episode List - Collapsible */}
-      <div className="p-4">
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="font-bold text-white text-lg">Episodes</h3>
-          <span className="text-gray-400 text-sm">
-            {animeInfo?.episodes.length || 0} Episodes
-          </span>
-        </div>
-        
-        <div className="grid grid-cols-4 gap-2">
-          {episodesLoading ? (
-            <div className="col-span-4 flex justify-center py-4">
-              <Loader className="w-6 h-6 animate-spin text-white" />
-            </div>
-          ) : animeInfo && animeInfo.episodes.length > 0 ? (
-            animeInfo.episodes.map(ep => {
-              const isCurrent = ep.id === episodeId;
-              return (
-                <button
-                  key={ep.id}
-                  ref={isCurrent ? activeEpisodeRef : null}
-                  onClick={() => navigate(`/watch/${ep.id}`)}
-                  className={`aspect-square flex items-center justify-center rounded-lg text-sm font-bold transition-all touch-control ${
-                    isCurrent
-                      ? 'bg-white text-black'
-                      : 'bg-gray-800 text-white hover:bg-gray-700'
-                  }`}
-                >
-                  {ep.number}
-                </button>
-              );
-            })
-          ) : (
-            <div className="col-span-4 text-center py-4 text-gray-500">
-              No episodes found.
-            </div>
-          )}
-        </div>
-      </div>
     </div>
-  );
+  </div>
+);
+
 
   // Desktop UI (preserved)
   const renderDesktopUI = () => (
@@ -436,7 +389,7 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
           ) : megaPlayEpisodeId ? (
             <div className="w-full h-full relative">
               <iframe
-                src={`https://megaplay.buzz/stream/s-2/${megaPlayEpisodeId}/${category}`}
+                src={selectedSource ? selectedSource.url : ''}
                 width="100%"
                 height="100%"
                 frameBorder="0"
@@ -558,7 +511,7 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
       {renderDesktopUI()}
       
       {/* Footer placeholder - ensures footer appears at the end of the page */}
-      <div className="h-20 md:hidden"></div>
+      
     </>
   );
 };

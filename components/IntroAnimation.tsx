@@ -40,7 +40,7 @@ export const Intro: React.FC<IntroProps> = ({ onComplete }) => {
       {/* Content Container (Behind Shutters) */}
       <div className={`relative z-30 flex flex-col items-center justify-center transition-opacity duration-300 ${isExiting ? 'opacity-0' : 'opacity-100'}`}>
         
-        <h1 className="text-5xl md:text-8xl font-display font-black text-white tracking-[0.25em] relative inline-block uppercase">
+        <h1 className="text-[2.85rem] md:text-8xl font-display font-black text-white tracking-[0.25em] relative inline-block uppercase">
   Aizen_Verse
 
   <span
@@ -68,16 +68,16 @@ export const Intro: React.FC<IntroProps> = ({ onComplete }) => {
 
         {/* Japanese Text Decor */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[2px] bg-white/10 rotate-45 pointer-events-none"></div>
-        <div className="absolute bottom-10 left-10 text-white/30 font-display text-4xl hidden md:block select-none">
+        <div className="absolute bottom-10 left-10 text-white/30 font-display text-[2.1375rem] hidden md:block select-none">
            アニメ
         </div>
-        <div className="absolute top-10 right-10 text-white/30 font-display text-4xl hidden md:block select-none">
+        <div className="absolute top-10 right-10 text-white/30 font-display text-[2.1375rem] hidden md:block select-none">
            起動
         </div>
 
-        <div className="mt-6 font-mono text-xs text-gray-500 flex flex-col items-center gap-2">
+        <div className="mt-6 font-mono text-[0.7125rem] text-gray-500 flex flex-col items-center gap-2">
            <span>INITIALIZING RESOURCES... {Math.min(progress, 100)}%</span>
-           <span className="text-white/60 tracking-widest uppercase text-[10px] mt-2 border-t border-white/10 pt-2">created by Syed Subhan</span>
+           <span className="text-white/60 tracking-widest uppercase text-[9.5px] mt-2 border-t border-white/10 pt-2">created by Syed Subhan</span>
         </div>
 
       </div>

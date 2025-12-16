@@ -106,7 +106,7 @@ export const secureProxyVideoUrl = (
   }
   
   // Return URL with hash parameter
-  const proxyUrl = new URL(typeof process !== 'undefined' && process.env.REACT_APP_PROXY_URL || "https://aizen-rust-proxy1.vercel.app");
+  const proxyUrl = new URL(import.meta.env.VITE_PROXY_URL || "http://localhost:8080");
   proxyUrl.searchParams.set('token', Math.abs(hash).toString());
   proxyUrl.searchParams.set('ts', timestamp.toString());
   
