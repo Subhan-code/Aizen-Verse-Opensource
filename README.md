@@ -8,7 +8,7 @@
 
 **Aizen Verse** is a modern, mobile-first anime streaming web application built with **React 19**, **TypeScript**, and **Vite 6**. It focuses on performance, responsive design, and a smooth viewing experience across mobile, tablet, and desktop devices.
 
-> ⚠️ **Important Notice**: This repository contains the **frontend application and player logic only**. The **hosted backend, streaming APIs, and infrastructure are privately maintained**.
+> ⚠️ **Important Notice**: This repository contains the **frontend application and player logic only**. For backend services, you can use the open-source [Consumet API](https://github.com/consumet/api.consumet.org) or host your own backend implementation.
 
 ## 🚀 Features
 
@@ -77,6 +77,19 @@ Aizen-Verse/
 - No uptime or availability guarantees
 - For extended or production usage, users are encouraged to self-host their own backend implementation
 
+### Backend Options
+
+1. **Consumet API** - Open-source backend service
+   - Repository: [api.consumet.org](https://github.com/consumet/api.consumet.org)
+   - Provides anime streaming data and metadata
+   - Easy to deploy and customize
+
+2. **Aizen Rust Proxy** - Video streaming proxy
+   - Repository: [Aizen-rust-proxy](https://github.com/Subhan-code/Aizen-rust-proxy)
+   - Handles video streaming requests securely
+   - Improves performance and bypasses CORS restrictions
+   - Written in Rust for optimal performance
+
 ## 🧪 Local Development
 
 ### Prerequisites
@@ -101,6 +114,13 @@ Aizen-Verse/
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
+   ```
+
+4. Update the `.env` file with your backend service URLs:
+   ```env
+   VITE_API_BASE_URL=http://localhost:3000  # Your Consumet API URL
+   VITE_PROXY_URL=http://localhost:8080     # Your Rust proxy URL
+   VITE_ENV=development
    ```
 
 ### Available Scripts
@@ -144,6 +164,8 @@ The project uses Tailwind CSS alongside custom utility classes defined in `custo
 - Streaming sources are not part of this codebase
 - This project does not distribute or host copyrighted content
 - Secure handling of user preferences in localStorage
+- Video streaming requests are proxied through the Rust proxy for security
+- Proxy implementation prevents direct exposure of streaming sources
 
 ## 🤝 Contributing
 
