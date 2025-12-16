@@ -8,6 +8,7 @@ import {
   Volume2,
   VolumeX,
   Maximize,
+  Minimize,
   Settings,
   RefreshCcw,
   MessageSquare
@@ -33,6 +34,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, captionsSrc, onEn
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [captionsEnabled, setCaptionsEnabled] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   let hideTimeout: NodeJS.Timeout;
 
@@ -63,12 +65,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, captionsSrc, onEn
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
     const handleEnded = () => onEnded && onEnded();
+    
+    // Fullscreen change handlers
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
 
     video.addEventListener('loadedmetadata', updateDuration);
     video.addEventListener('timeupdate', updateProgress);
     video.addEventListener('play', onPlay);
     video.addEventListener('pause', onPause);
     video.addEventListener('ended', handleEnded);
+    
+    // Add fullscreen change listeners
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
     return () => {
       video.removeEventListener('loadedmetadata', updateDuration);
@@ -76,6 +89,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, captionsSrc, onEn
       video.removeEventListener('play', onPlay);
       video.removeEventListener('pause', onPause);
       video.removeEventListener('ended', handleEnded);
+      
+      // Remove fullscreen change listeners
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+      
       hlsRef.current?.destroy();
     };
   }, [src, captionsSrc, captionsEnabled, onEnded]);
@@ -130,12 +150,50 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, captionsSrc, onEn
     setShowSpeedMenu(false);
   };
 
-  const enterFullscreen = () => videoRef.current?.requestFullscreen();
+  const enterFullscreen = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    
+    // Check for fullscreen support
+    if (video.requestFullscreen) {
+      video.requestFullscreen();
+    } else if ((video as any).webkitRequestFullscreen) { // Safari
+      (video as any).webkitRequestFullscreen();
+    } else if ((video as any).mozRequestFullScreen) { // Firefox
+      (video as any).mozRequestFullScreen();
+    } else if ((video as any).msRequestFullscreen) { // IE/Edge
+      (video as any).msRequestFullscreen();
+    }
+    
+    setIsFullscreen(true);
+  };
+  
+  const exitFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if ((document as any).webkitExitFullscreen) { // Safari
+      (document as any).webkitExitFullscreen();
+    } else if ((document as any).mozCancelFullScreen) { // Firefox
+      (document as any).mozCancelFullScreen();
+    } else if ((document as any).msExitFullscreen) { // IE/Edge
+      (document as any).msExitFullscreen();
+    }
+    
+    setIsFullscreen(false);
+  };
+  
+  const toggleFullscreen = () => {
+    if (isFullscreen) {
+      exitFullscreen();
+    } else {
+      enterFullscreen();
+    }
+  };
 
   const formatTime = (t: number) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 
   return (
-    <div className="relative bg-gray-900 dark:bg-black rounded-3xl overflow-hidden" onMouseMove={handleMouseMove}>
+    <div className="relative bg-gray-900 dark:bg-black rounded-3xl overflow-hidden video-player-container" onMouseMove={handleMouseMove}>
       <video ref={videoRef} className="w-full h-full bg-black" onClick={togglePlay} />
 
       {!isPlaying && (
@@ -162,30 +220,32 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title, captionsSrc, onEn
 
         <div className="mt-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => skip(-10)} className="text-white hover:bg-white/10 p-2 rounded-full"><SkipBack className="w-6 h-6" /></button>
-            <button onClick={togglePlay} className="text-white hover:bg-white/10 p-2 rounded-full">{isPlaying ? <Pause className="w-7 h-7" /> : <Play className="w-7 h-7" />}</button>
-            <button onClick={() => skip(10)} className="text-white hover:bg-white/10 p-2 rounded-full"><SkipForward className="w-6 h-6" /></button>
-            <button onClick={() => videoRef.current && (videoRef.current.currentTime = 0)} className="text-white hover:bg-white/10 p-2 rounded-full"><RefreshCcw className="w-5 h-5" /></button>
-            <button onClick={toggleMute} className="text-white hover:bg-white/10 p-2 rounded-full">{isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}</button>
+            <button onClick={() => skip(-10)} className="text-white hover:bg-white/10 p-2 rounded-full touch-control"><SkipBack className="w-6 h-6" /></button>
+            <button onClick={togglePlay} className="text-white hover:bg-white/10 p-2 rounded-full touch-control">{isPlaying ? <Pause className="w-7 h-7" /> : <Play className="w-7 h-7" />}</button>
+            <button onClick={() => skip(10)} className="text-white hover:bg-white/10 p-2 rounded-full touch-control"><SkipForward className="w-6 h-6" /></button>
+            <button onClick={() => videoRef.current && (videoRef.current.currentTime = 0)} className="text-white hover:bg-white/10 p-2 rounded-full touch-control"><RefreshCcw className="w-5 h-5" /></button>
+            <button onClick={toggleMute} className="text-white hover:bg-white/10 p-2 rounded-full touch-control">{isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}</button>
             <input type="range" min="0" max="1" step="0.01" value={volume} onChange={changeVolume} className="w-24 h-1.5 bg-white/20 dark:bg-white/30 rounded-full appearance-none cursor-pointer" />
-            <button onClick={toggleCaptions} className={`p-2 rounded-full ${captionsEnabled ? 'bg-white text-black' : 'bg-black text-white'} hover:invert transition-colors`}><MessageSquare className="w-5 h-5" /></button>
+            <button onClick={toggleCaptions} className={`p-2 rounded-full touch-control ${captionsEnabled ? 'bg-white text-black' : 'bg-black text-white'} hover:invert transition-colors`}><MessageSquare className="w-5 h-5" /></button>
           </div>
 
           <div className="flex items-center gap-4 relative">
             <div>
-              <button onClick={() => setShowSpeedMenu(!showSpeedMenu)} className="text-white hover:bg-white/10 p-2 rounded-full flex items-center gap-1">
+              <button onClick={() => setShowSpeedMenu(!showSpeedMenu)} className="text-white hover:bg-white/10 p-2 rounded-full flex items-center gap-1 touch-control">
                 <Settings className="w-5 h-5" /> {playbackRate}x
               </button>
               {showSpeedMenu && (
                 <div className="absolute bottom-12 right-0 bg-gray-900 dark:bg-gray-800 border border-white/20 dark:border-white/40 rounded-xl p-2 text-white z-50">
                   {[0.5,1,1.25,1.5,2,3].map(r => (
-                    <button key={r} onClick={() => setSpeed(r)} className="block w-full text-left px-3 py-1 hover:bg-white/10 dark:hover:bg-white/20 rounded">{r}x</button>
+                    <button key={r} onClick={() => setSpeed(r)} className="block w-full text-left px-3 py-1 hover:bg-white/10 dark:hover:bg-white/20 rounded touch-control">{r}x</button>
                   ))}
                 </div>
               )}
             </div>
             <span className="text-white font-dela text-sm hidden md:block truncate max-w-xs">{title}</span>
-            <button onClick={enterFullscreen} className="text-white hover:bg-white/10 p-2 rounded-full"><Maximize className="w-6 h-6" /></button>
+            <button onClick={toggleFullscreen} className="text-white hover:bg-white/10 p-2 rounded-full touch-control">
+              {isFullscreen ? <Minimize className="w-6 h-6" /> : <Maximize className="w-6 h-6" />}
+            </button>
           </div>
         </div>
       </div>

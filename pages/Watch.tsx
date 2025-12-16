@@ -65,11 +65,10 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
 
   // Extract MegaPlay episode ID (last 5 digits from episode URL)
   const extractMegaPlayEpisodeId = (epId: string) => {
-    if (!epId) return '';
-    // Extract the last 5 digits from the episode ID
-    const match = epId.match(/(\d{5})$/);
-    return match ? match[1] : '';
-  };
+  if (!epId) return '';
+  const match = epId.match(/\$episode\$(\d+)$/);
+  return match ? match[1] : '';
+};
 
   // Fetch streaming links from VidCloud server only
   const fetchAllStreamingLinks = async () => {
@@ -251,14 +250,14 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
     };
   }, [setIsNavbarGlass]);
 
-  // Mobile/Tablet UI Implementation
-  const renderMobileTabletUI = () => (
+  // Mobile UI Implementation
+  const renderMobileUI = () => (
     <div className="w-full flex flex-col md:hidden">
       {/* Top Bar - Back button and anime title */}
       <div className="sticky top-0 z-10 bg-black/90 backdrop-blur-md p-4 flex items-center justify-between">
         <button 
           onClick={handleClose} 
-          className="flex items-center gap-2 text-white"
+          className="flex items-center gap-2 text-white touch-control"
         >
           <ArrowLeft className="w-5 h-5" /> 
           <span className="font-bold">Back</span>
@@ -270,7 +269,7 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
       </div>
 
       {/* Video Player */}
-      <div className="w-full aspect-video bg-black relative">
+      <div className="w-full aspect-video bg-black relative mobile-video-container">
         {loading ? (
           <div className="absolute inset-0 flex items-center justify-center">
             <Loader className="w-12 h-12 animate-spin text-white" />
@@ -284,7 +283,7 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
                 <button
                   key={server.id}
                   onClick={() => handleServerSelect(server.id)}
-                  className={`px-3 py-1 rounded-full text-sm ${
+                  className={`px-3 py-1 rounded-full text-sm touch-control ${
                     selectedServer === server.id
                       ? 'bg-red-600 text-white'
                       : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
@@ -319,7 +318,7 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
         <button
           onClick={handlePrevEpisode}
           disabled={getCurrentEpisodeIndex() <= 0}
-          className="flex items-center gap-2 text-white disabled:opacity-50"
+          className="flex items-center gap-2 text-white disabled:opacity-50 touch-control"
         >
           <ChevronLeft className="w-5 h-5" />
           <span className="text-sm">Prev</span>
@@ -380,7 +379,7 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
                   key={ep.id}
                   ref={isCurrent ? activeEpisodeRef : null}
                   onClick={() => navigate(`/watch/${ep.id}`)}
-                  className={`aspect-square flex items-center justify-center rounded-lg text-sm font-bold transition-all ${
+                  className={`aspect-square flex items-center justify-center rounded-lg text-sm font-bold transition-all touch-control ${
                     isCurrent
                       ? 'bg-white text-black'
                       : 'bg-gray-800 text-white hover:bg-gray-700'
@@ -555,7 +554,7 @@ const Watch: React.FC<WatchProps> = ({ theme = 'dark', setIsNavbarGlass }) => {
 
   return (
     <>
-      {renderMobileTabletUI()}
+      {renderMobileUI()}
       {renderDesktopUI()}
       
       {/* Footer placeholder - ensures footer appears at the end of the page */}

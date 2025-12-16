@@ -128,8 +128,8 @@ const Home: React.FC<HomeProps> = ({ fallbackData, theme = 'dark' }) => {
   // Combine all anime data for the HeroSlider
   const allAnime = [...(featuredAnime ? [featuredAnime] : []), ...topAiringAnime, ...recentAnime].slice(0, 8);
 
-  // Mobile/Tablet UI Implementation
-  const renderMobileTabletUI = () => (
+  // Mobile UI Implementation
+  const renderMobileUI = () => (
     <div className="space-y-8 md:hidden">
       {/* Hero Featured Section - Simplified for mobile */}
       {featuredAnime && (
@@ -337,7 +337,7 @@ const Home: React.FC<HomeProps> = ({ fallbackData, theme = 'dark' }) => {
 
   return (
     <>
-      {renderMobileTabletUI()}
+      {renderMobileUI()}
       {renderDesktopUI()}
     </>
   );
