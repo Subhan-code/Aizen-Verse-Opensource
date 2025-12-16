@@ -44,20 +44,25 @@ export const AnimeCard: React.FC<AnimeCardProps> = ({ anime, onClick, rank, tren
             loading="lazy"
           />
 
-          {/* Floating Badges */}
-          <div className="absolute top-3 left-3 z-10 flex flex-col gap-2 items-start opacity-100 transition-opacity duration-300">
-             <span className="bg-black/90 dark:bg-white/90 backdrop-blur-md text-white dark:text-black text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border border-white/20 dark:border-black/20 group-hover:scale-105 transition-transform">
-               <span className="w-1.5 h-1.5 rounded-full bg-white dark:bg-black animate-pulse"></span>
-               EP {anime.episodeNumber || 0}
-             </span>
-          </div>
-          
-          {/* Rating Badge */}
-          <div className="absolute top-3 right-3 z-10">
-             <span className="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg group-hover:rotate-12 transition-transform duration-300">
-               {anime.rating || 'N/A'}
-             </span>
-          </div>
+          {/*
+  Floating Badges
+  <div className="absolute top-3 left-3 z-10 flex flex-col gap-2 items-start opacity-100 transition-opacity duration-300">
+    <span className="bg-black/90 dark:bg-white/90 backdrop-blur-md text-white dark:text-black text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border border-white/20 dark:border-black/20 group-hover:scale-105 transition-transform">
+      <span className="w-1.5 h-1.5 rounded-full bg-white dark:bg-black animate-pulse"></span>
+      EP {anime.episodeNumber || 0}
+    </span>
+  </div>
+*/}
+
+{/*
+  Rating Badge
+  <div className="absolute top-3 right-3 z-10">
+    <span className="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg group-hover:rotate-12 transition-transform duration-300">
+      {anime.rating || 'N/A'}
+    </span>
+  </div>
+*/}
+
 
           {/* Play Button Overlay */}
           <div className="absolute inset-0 bg-black/20 dark:bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-[2px]">
