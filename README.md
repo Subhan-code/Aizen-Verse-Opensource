@@ -8,22 +8,22 @@
 
 **Aizen Verse** is a modern, mobile-first anime streaming web application built with **React 19**, **TypeScript**, and **Vite 6**. It focuses on performance, responsive design, and a smooth viewing experience across mobile, tablet, and desktop devices.
 
-> ⚠️ **Important Notice**: This repository contains the **frontend application and player logic only**. For backend services, you can use the open-source [Consumet API](https://github.com/consumet/api.consumet.org) or host your own backend implementation.
+> **Important Notice**: This repository contains the **frontend application and player logic only**. For backend services, you can use the open-source [Consumet API](https://github.com/consumet/api.consumet.org) or host your own backend implementation.
 
-## 🚀 Features
+## Features
 
-- 🎬 **HLS.js Video Streaming** with adaptive playback
-- 📱 **Mobile-First Responsive Design** optimized for all devices
-- 🔍 **Advanced Anime Search** with filtering capabilities
-- ❤️ **Favorites System** to save your preferred content
-- 📜 **Watch History** to track your viewing progress
-- 🌗 **Dark/Light Theme Toggle** with seamless transitions
-- 📺 **Episode Browsing** with detailed anime information
-- ⚡ **SPA Navigation** using React Router v7 for instant page transitions
-- 🎨 **Custom UI Components** with animations and glass-morphism effects
-- 🛡️ **Security-Focused** with environment-based configuration
+-  **HLS.js Video Streaming** with adaptive playback
+-  **Mobile-First Responsive Design** optimized for all devices
+-  **Advanced Anime Search** with filtering capabilities
+-  **Favorites System** to save your preferred content
+-  **Watch History** to track your viewing progress
+-  **Dark/Light Theme Toggle** with seamless transitions
+-  **Episode Browsing** with detailed anime information
+-  **SPA Navigation** using React Router v7 for instant page transitions
+-  **Custom UI Components** with animations and glass-morphism effects
+-  **Security-Focused** with environment-based configuration
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Technology      | Purpose                     |
 |-----------------|-----------------------------|
@@ -60,7 +60,7 @@ Aizen-Verse/
 - Native fullscreen API support
 - Responsive design for all screen sizes
 
-## 📱 Responsive Design Strategy
+## Responsive Design Strategy
 
 - Mobile-first approach for optimal performance
 - Tablets (768px–1023px) use the mobile layout
@@ -68,7 +68,7 @@ Aizen-Verse/
 - Minimum 44px touch targets for mobile usability
 - Stable scrolling with no layout jitter
 
-## 🔌 API Integration & Streaming
+## API Integration & Streaming
 
 > **Note**: This project is open source, but the official hosted backend and streaming APIs are private.
 
@@ -131,7 +131,7 @@ Aizen-Verse/
 | `npm run build`      | Builds the production bundle       |
 | `npm run preview`    | Previews the production build      |
 
-## 🎨 Custom Styling
+##  Custom Styling
 
 The project uses Tailwind CSS alongside custom utility classes defined in `custom.css`, including:
 
@@ -141,7 +141,7 @@ The project uses Tailwind CSS alongside custom utility classes defined in `custo
 - `.animate-glitch`, `.shutter-up-anim` – Animation utilities
 - `.dark`, `.light-mode` – Theme handling
 
-## ⚡ Performance Optimizations
+##  Performance Optimizations
 
 - Lazy loading for images and components
 - Minimal re-renders via optimized component design
@@ -149,7 +149,7 @@ The project uses Tailwind CSS alongside custom utility classes defined in `custo
 - Touch-optimized scrolling behavior
 - Efficient state management with React Hooks
 
-## ♿ Accessibility
+##  Accessibility
 
 - Semantic HTML structure
 - Keyboard navigation support
@@ -157,7 +157,7 @@ The project uses Tailwind CSS alongside custom utility classes defined in `custo
 - Proper contrast ratios for readability
 - Touch-target sizing compliance (minimum 44px)
 
-## 🔐 Security
+##  Security
 
 - No production secrets included in this repository
 - Environment variables required for API integration
@@ -179,17 +179,17 @@ Contributions are welcome! Here's how you can contribute:
 
 Please ensure your code follows the existing style and includes appropriate tests.
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 > **Note**: This license applies to the source code only. It does not grant rights to any streaming content, hosted services, or private APIs.
 
-## ⚠️ Disclaimer
+##  Disclaimer
 
 This project is provided "as is", without warranty of any kind, express or implied. The author is not responsible for third-party deployments, content sources, or usage.
 
-## 👨‍💻 Author
+##  Author
 
 **Syed Subhan**
 
@@ -197,3 +197,4 @@ This project is provided "as is", without warranty of any kind, express or impli
 - Twitter: [@SubhanHQ](https://twitter.com/SubhanHQ)
 
 ⭐ If you find this project useful, consider starring the repository!
+Made With 💜 Syed Subhan
