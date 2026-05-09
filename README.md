@@ -10,6 +10,11 @@
 
 > **Important Notice**: This repository contains the **frontend application and player logic only**. For backend services, you can use the open-source [Consumet API](https://github.com/consumet/api.consumet.org) or host your own backend implementation.
 
+
+
+https://github.com/user-attachments/assets/b436e663-3590-4320-b51e-f3d023065374
+
+
 ## Features
 
 -  **HLS.js Video Streaming** with adaptive playback
